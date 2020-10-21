@@ -30,7 +30,17 @@
 */
 
 //Code Here
-
+class Employee {
+  constructor(firstName, lastName, email, age){
+    this.first_name = firstName;
+    this.last_name = lastName;
+    this.email = email;
+    this.age = age;
+  };
+  makeWidget = ()=>{
+    return `${this.first_name} ${this.last_name} Widget`;
+  };
+};
 
 ////////// PROBLEM 2 //////////
 
@@ -48,7 +58,18 @@
 */
 
 //Code Here
-
+class Manager extends Employee{
+  constructor(firstName, lastName, email, age){
+    super(firstName, lastName, email, age)
+    this.reports = [];
+  }
+    hire (employee){
+      this.reports.push(employee)
+    };
+    fire (i) {
+      this.reports.splice (i, 1)
+    };
+}
 
 ////////// PROBLEM 3 //////////
 
@@ -72,7 +93,35 @@
 */
 
 //Code Here
-
+class ProgressiveManager extends Manager{
+  constructor(firstName, lastName, email, age){
+    super(firstName, lastName, email, age)
+    this.title = 'Not a manager';
+    this.bonus = 0;
+  }
+  hire(employee){
+    super.hire(employee);
+    this.updateTitle();
+  }
+  fire(i){
+    super.fire(i)
+    this.updateTitle();
+    this.bonus += 100;
+  }
+  updateTitle (){
+    let length = this.reports.length;
+    if (length >= 1 && length <= 3)
+    this.title = "Barely Manager"
+    else if (length >= 4  && length <= 10)
+    this.title = "Mostly Manager"
+    else if (length >= 11 && length <= 50)
+    this.title = "Manager"
+    else if (length >= 51 && length <= 100)
+    this.title = "Manager Plus"
+    else
+    this.title = 'Bestest Manager'
+  }
+}
 
 
 ////////// PROBLEM 4 - Black Diamond //////////
@@ -100,4 +149,33 @@
 
 //Code Here
 
+class Machine {
+  constructor(){
+    this.widgets_made_count = 0;
+    this.wear_and_tear_count = 0;
+    this.needs_reboot = false;
+  }
+
+  makeWidgets(num) {
+    this.widgets_made_count += num;
+    this.wear_and_tear_count = Math.trunc(this.widgets_made_count / 50);
+  }
+
+  fixMachine() {
+    this.needs_reboot = true;
+  }
+
+  reboot() {
+    return (function () {
+      this.wear_and_tear_count -= 10;
+      this.needs_reboot = false;
+    }).bind(this);
+  }
+}
+
+let newMachine = new Machine();
+
+newMachine.makeWidgets()
+newMachine.fixMachine();
+newMachine.reboot()();
 
